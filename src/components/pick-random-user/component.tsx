@@ -50,7 +50,7 @@ function PickRandomUserPlugin({ pluginUuid: uuid }: PickRandomUserPluginProps) {
     if (modalInformation) {
       setFilterOutPresenter(modalInformation.skipPresenter);
       setUserFilterViewer(modalInformation.skipModerators);
-      setFilterOutPickedUsers(modalInformation.skipPickedUsers);
+      setFilterOutPickedUsers(!modalInformation.includePickedUsers);
     }
   }, [modalInformationFromPresenter]);
 
@@ -85,7 +85,7 @@ function PickRandomUserPlugin({ pluginUuid: uuid }: PickRandomUserPluginProps) {
       dispatchModalInformationFromPresenter({
         skipModerators: userFilterViewer,
         skipPresenter: filterOutPresenter,
-        skipPickedUsers: filterOutPickedUsers,
+        includePickedUsers: !filterOutPickedUsers,
       });
       pushPickedUser(null);
     }

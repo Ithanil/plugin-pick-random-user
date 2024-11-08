@@ -85,18 +85,18 @@ export function PresenterViewComponent(props: PresenterViewComponentProps) {
             />
             <span className="check-box-label">Skip Presenter</span>
           </label>
-          <label className="check-box-label-container" htmlFor="skipPickedUsers">
+          <label className="check-box-label-container" htmlFor="includePickedUsers">
             <input
               type="checkbox"
-              id="skipPickedUsers"
-              checked={filterOutPickedUsers}
+              id="includePickedUsers"
+              checked={!filterOutPickedUsers}
               onChange={() => {
                 setFilterOutPickedUsers(!filterOutPickedUsers);
               }}
               name="options"
-              value="skipPickedUsers"
+              value="includePickedUsers"
             />
-            <span className="check-box-label">Skip Picked Users</span>
+            <span className="check-box-label">Include already picked users</span>
           </label>
         </p>
       </div>
