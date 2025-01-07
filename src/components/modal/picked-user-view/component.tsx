@@ -4,11 +4,29 @@ import { PickedUserViewComponentProps } from './types';
 export function PickedUserViewComponent(props: PickedUserViewComponentProps) {
   const {
     title,
-    pickedUser,
+    pickedUserWithEntryId,
     currentUser,
+    updatePickedRandomUser,
     setShowPresenterView,
     dispatcherPickedUser,
   } = props;
+
+  React.useEffect(() => {
+    if (currentUser?.presenter) {
+      updatePickedRandomUser(pickedUserWithEntryId.entryId, {
+        ...pickedUserWithEntryId.pickedUser,
+        isPresenterViewing: true,
+      });
+    }
+    return () => {
+      if (currentUser?.presenter) {
+        updatePickedRandomUser(pickedUserWithEntryId.entryId, {
+          ...pickedUserWithEntryId.pickedUser,
+          isPresenterViewing: false,
+        });
+      }
+    };
+  }, []);
 
   const handleBackToPresenterView = () => {
     if (currentUser?.presenter) {
@@ -24,15 +42,15 @@ export function PickedUserViewComponent(props: PickedUserViewComponentProps) {
     >
       <h1 className="title">{title}</h1>
       {
-        (pickedUser) ? (
+        (pickedUserWithEntryId) ? (
           <>
             <div
               className="modal-avatar"
-              style={{ backgroundColor: `${pickedUser?.color}` }}
+              style={{ backgroundColor: `${pickedUserWithEntryId.pickedUser?.color}` }}
             >
-              {pickedUser?.name.slice(0, 2)}
+              {pickedUserWithEntryId.pickedUser?.name.slice(0, 2)}
             </div>
-            <p className="user-name">{pickedUser?.name}</p>
+            <p className="user-name">{pickedUserWithEntryId.pickedUser?.name}</p>
           </>
         ) : null
       }

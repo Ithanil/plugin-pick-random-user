@@ -11,7 +11,8 @@ export function PickUserModal(props: PickUserModalProps) {
     showModal,
     handleCloseModal,
     users,
-    pickedUser,
+    updatePickedRandomUser,
+    pickedUserWithEntryId,
     handlePickRandomUser,
     currentUser,
     filterOutPresenter,
@@ -31,16 +32,16 @@ export function PickUserModal(props: PickUserModalProps) {
   } else {
     userRole = (users?.length !== 1) ? 'users' : 'user';
   }
-  const title = (pickedUser?.userId === currentUser?.userId)
+  const title = (pickedUserWithEntryId?.pickedUser?.userId === currentUser?.userId)
     ? 'You have been randomly picked'
     : 'Randomly picked user';
 
   const [showPresenterView, setShowPresenterView] = useState<boolean>(
-    currentUser?.presenter && !pickedUser,
+    currentUser?.presenter && !pickedUserWithEntryId,
   );
   useEffect(() => {
-    setShowPresenterView(currentUser?.presenter && !pickedUser);
-  }, [currentUser, pickedUser]);
+    setShowPresenterView(currentUser?.presenter && !pickedUserWithEntryId);
+  }, [currentUser, pickedUserWithEntryId]);
   return (
     <ReactModal
       className="plugin-modal"
@@ -59,6 +60,7 @@ export function PickUserModal(props: PickUserModalProps) {
           onClick={() => {
             handleCloseModal();
           }}
+          aria-label="Close button"
         >
           <i
             className="icon-bbb-close"
@@ -79,7 +81,7 @@ export function PickUserModal(props: PickUserModalProps) {
                 deletionFunction,
                 handlePickRandomUser,
                 dataChannelPickedUsers,
-                pickedUser,
+                pickedUserWithEntryId,
                 users,
                 userRole,
                 dispatcherPickedUser,
@@ -88,8 +90,9 @@ export function PickUserModal(props: PickUserModalProps) {
           ) : (
             <PickedUserViewComponent
               {...{
-                pickedUser,
+                pickedUserWithEntryId,
                 title,
+                updatePickedRandomUser,
                 currentUser,
                 setShowPresenterView,
                 dispatcherPickedUser,

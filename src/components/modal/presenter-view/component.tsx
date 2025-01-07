@@ -45,7 +45,7 @@ export function PresenterViewComponent(props: PresenterViewComponentProps) {
     deletionFunction,
     handlePickRandomUser,
     dataChannelPickedUsers,
-    pickedUser,
+    pickedUserWithEntryId,
     users,
     userRole,
   } = props;
@@ -140,7 +140,7 @@ export function PresenterViewComponent(props: PresenterViewComponentProps) {
             }}
           >
             {
-            (pickedUser) ? 'Pick again' : `Pick ${userRole}`
+            (pickedUserWithEntryId) ? 'Pick again' : `Pick ${userRole}`
             }
           </button>
         ) : (

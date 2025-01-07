@@ -6,7 +6,7 @@ import { ActionButtonDropdownManagerProps } from './types';
 
 function ActionButtonDropdownManager(props: ActionButtonDropdownManagerProps): React.ReactNode {
   const {
-    pickedUser,
+    pickedUserWithEntryId,
     currentUser,
     pluginApi,
     setShowModal,
@@ -27,7 +27,7 @@ function ActionButtonDropdownManager(props: ActionButtonDropdownManagerProps): R
           },
         }),
       ]);
-    } else if (!currentUser?.presenter && pickedUser) {
+    } else if (!currentUser?.presenter && pickedUserWithEntryId) {
       pluginApi.setActionButtonDropdownItems([
         new ActionButtonDropdownSeparator(),
         new ActionButtonDropdownOption({
@@ -43,7 +43,7 @@ function ActionButtonDropdownManager(props: ActionButtonDropdownManagerProps): R
     } else {
       pluginApi.setActionButtonDropdownItems([]);
     }
-  }, [currentUserInfo, pickedUser]);
+  }, [currentUserInfo, pickedUserWithEntryId]);
   return null;
 }
 

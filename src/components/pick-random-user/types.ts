@@ -1,9 +1,15 @@
 export interface PickedUser {
+    isPresenterViewing: boolean;
     presenter: boolean;
     userId: string;
     name: string;
     role: string;
     color: string;
+}
+
+export interface PickedUserWithEntryId {
+    pickedUser: PickedUser;
+    entryId: string;
 }
 
 export interface PickRandomUserPluginProps {

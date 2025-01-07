@@ -1,6 +1,6 @@
 import { DataChannelEntryResponseType } from 'bigbluebutton-html-plugin-sdk/dist/cjs/data-channel/types';
 import { DeleteEntryFunction } from 'bigbluebutton-html-plugin-sdk';
-import { PickedUser } from '../../pick-random-user/types';
+import { PickedUser, PickedUserWithEntryId } from '../../pick-random-user/types';
 
 export interface PresenterViewComponentProps {
     filterOutPresenter: boolean;
@@ -12,7 +12,7 @@ export interface PresenterViewComponentProps {
     deletionFunction: DeleteEntryFunction;
     handlePickRandomUser: () => void;
     dataChannelPickedUsers?: DataChannelEntryResponseType<PickedUser>[];
-    pickedUser: PickedUser;
+    pickedUserWithEntryId: PickedUserWithEntryId;
     users?: PickedUser[];
     userRole: string;
 }

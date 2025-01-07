@@ -8,11 +8,9 @@ const pluginName = document.currentScript?.getAttribute('pluginName') || 'plugin
 
 const root = ReactDOM.createRoot(document.getElementById(uuid));
 root.render(
-  <React.StrictMode>
-    <PickRandomUserPlugin {...{
-      pluginUuid: uuid,
-      pluginName,
-    }}
-    />
-  </React.StrictMode>,
+  <PickRandomUserPlugin {...{
+    pluginUuid: uuid,
+    pluginName,
+  }}
+  />,
 );
