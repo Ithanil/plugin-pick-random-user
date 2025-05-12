@@ -11,3 +11,7 @@ export interface PickedUserViewComponentProps {
     setShowPresenterView: React.Dispatch<React.SetStateAction<boolean>>;
     dispatcherPickedUser: PushEntryFunction
 }
+
+export interface ModalAvatarProps {
+    background: string;
+}

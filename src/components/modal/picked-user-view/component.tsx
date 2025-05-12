@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { defineMessages } from 'react-intl';
 import { PickedUserViewComponentProps } from './types';
+import * as Styled from './styles';
 
 const intlMessages = defineMessages({
   currentUserPicked: {
@@ -15,6 +16,10 @@ const intlMessages = defineMessages({
   backButtonLabel: {
     id: 'pickRandomUserPlugin.modal.pickedUserView.backButton.label',
     description: 'Label of back button in picked-user view on the modal',
+  },
+  avatarImageAlternativeText: {
+    id: 'pickRandomUserPlugin.modal.pickedUserView.avatarImage.alternativeText',
+    description: 'Alternative text for avatar image',
   },
 });
 
@@ -51,27 +56,34 @@ export function PickedUserViewComponent(props: PickedUserViewComponentProps) {
       dispatcherPickedUser(null);
     }
   };
+  const avatarUrl = pickedUserWithEntryId.pickedUser.avatar;
 
   const title = (pickedUserWithEntryId?.pickedUser?.userId === currentUser?.userId)
     ? intl.formatMessage(intlMessages.currentUserPicked)
     : intl.formatMessage(intlMessages.randomUserPicked);
+
+  const avatarAltDescriptor = intl.formatMessage(intlMessages.currentUserPicked, {
+    0: pickedUserWithEntryId.pickedUser.name,
+  });
   return (
-    <div
-      style={{
-        width: '100%', height: '100%', alignItems: 'center', display: 'flex', flexDirection: 'column',
-      }}
-    >
-      <h1 className="title">{title}</h1>
+    <Styled.PickedUserViewWrapper>
+      <Styled.PickedUserViewTitle>{title}</Styled.PickedUserViewTitle>
       {
         (pickedUserWithEntryId) ? (
           <>
-            <div
-              className="modal-avatar"
-              style={{ backgroundColor: `${pickedUserWithEntryId.pickedUser?.color}` }}
-            >
-              {pickedUserWithEntryId.pickedUser?.name.slice(0, 2)}
-            </div>
-            <p className="user-name">{pickedUserWithEntryId.pickedUser?.name}</p>
+            {avatarUrl ? (
+              <Styled.PickedUserAvatarImage
+                alt={avatarAltDescriptor}
+                src={avatarUrl}
+              />
+            ) : (
+              <Styled.PickedUserAvatarInitials
+                background={pickedUserWithEntryId.pickedUser?.color}
+              >
+                {pickedUserWithEntryId.pickedUser?.name.slice(0, 2)}
+              </Styled.PickedUserAvatarInitials>
+            )}
+            <Styled.PickedUserName>{pickedUserWithEntryId.pickedUser?.name}</Styled.PickedUserName>
           </>
         ) : null
       }
@@ -82,6 +94,6 @@ export function PickedUserViewComponent(props: PickedUserViewComponentProps) {
           </button>
         ) : null
       }
-    </div>
+    </Styled.PickedUserViewWrapper>
   );
 }

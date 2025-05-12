@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import * as React from 'react';
-import * as ReactModal from 'react-modal';
 import { defineMessages } from 'react-intl';
 import { pluginLogger } from 'bigbluebutton-html-plugin-sdk';
+import * as Styled from './styles';
 import { PickUserModalProps, WindowClientSettings } from './types';
-import './style.css';
 import { PickedUserViewComponent } from './picked-user-view/component';
 import { PresenterViewComponent } from './presenter-view/component';
 
@@ -75,20 +74,14 @@ export function PickUserModal(props: PickUserModalProps) {
     }
   }, [currentUser, pickedUserWithEntryId]);
   return (
-    <ReactModal
-      className="plugin-modal"
-      overlayClassName="modal-overlay"
+    <Styled.PluginModal
+      overlayClassName="modalOverlay"
       isOpen={showModal}
       onRequestClose={handleCloseModal}
     >
-      <div
-        style={{
-          width: '100%', alignItems: 'flex-end', display: 'flex', flexDirection: 'column',
-        }}
-      >
-        <button
+      <Styled.CloseButtonWrapper>
+        <Styled.CloseButton
           type="button"
-          className="clickable-close"
           onClick={() => {
             handleCloseModal();
           }}
@@ -97,8 +90,8 @@ export function PickUserModal(props: PickUserModalProps) {
           <i
             className="icon-bbb-close"
           />
-        </button>
-      </div>
+        </Styled.CloseButton>
+      </Styled.CloseButtonWrapper>
       {
         showPresenterView
           ? (
@@ -133,6 +126,6 @@ export function PickUserModal(props: PickUserModalProps) {
           )
 
       }
-    </ReactModal>
+    </Styled.PluginModal>
   );
 }
