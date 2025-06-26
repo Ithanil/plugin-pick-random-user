@@ -9,10 +9,12 @@ const intlMessages = defineMessages({
   pickUserLabel: {
     id: 'pickRandomUserPlugin.actionsButtonDropdown.label.pickUser',
     description: 'Title to show that current user has been picked',
+    defaultMessage: 'Pick random user',
   },
   viewLastPickedUserLabel: {
     id: 'pickRandomUserPlugin.actionsButtonDropdown.label.viewLastPickedUser',
     description: 'Label of the actions button dropdown option to display the last picked user',
+    defaultMessage: 'Display last randomly picked user',
   },
 });
 

@@ -11,6 +11,7 @@ const intlMessages = defineMessages({
   currentUserPicked: {
     id: 'pickRandomUserPlugin.modal.pickedUserView.title.currentUserPicked',
     description: 'Title to show that current user has been picked',
+    defaultMessage: 'You have been randomly picked',
   },
 });
 
@@ -39,7 +40,6 @@ export function PickUserModal(props: PickUserModalProps) {
     showModal,
     handleCloseModal,
     users,
-    updatePickedRandomUser,
     pickedUserWithEntryId,
     handlePickRandomUser,
     currentUser,
@@ -52,11 +52,14 @@ export function PickUserModal(props: PickUserModalProps) {
     dataChannelPickedUsers,
     deletionFunction,
     dispatcherPickedUser,
+    pickedUserSeenEntries,
+    pushPickedUserSeen,
   } = props;
 
   const [showPresenterView, setShowPresenterView] = useState<boolean>(
     currentUser?.presenter && !pickedUserWithEntryId,
   );
+
   useEffect(() => {
     setShowPresenterView(currentUser?.presenter && !pickedUserWithEntryId);
     // Play audio when user is selected
@@ -115,10 +118,12 @@ export function PickUserModal(props: PickUserModalProps) {
           ) : (
             <PickedUserViewComponent
               {...{
+                pickedUserSeenEntries,
+                pushPickedUserSeen,
                 pickedUserWithEntryId,
                 intl,
-                updatePickedRandomUser,
                 currentUser,
+                showModal,
                 setShowPresenterView,
                 dispatcherPickedUser,
               }}

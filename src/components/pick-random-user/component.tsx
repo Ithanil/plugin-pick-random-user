@@ -2,10 +2,12 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { createIntl, createIntlCache } from 'react-intl';
 
-import { BbbPluginSdk, PluginApi } from 'bigbluebutton-html-plugin-sdk';
+import { BbbPluginSdk, PluginApi, RESET_DATA_CHANNEL } from 'bigbluebutton-html-plugin-sdk';
+import hasCurrentUserSeenPickedUser from '../../utils/utils';
 import {
   ModalInformationFromPresenter,
   PickRandomUserPluginProps,
+  PickedUserSeenEntryDataChannel,
   PickedUser,
   PickedUserWithEntryId,
   UsersMoreInformationGraphqlResponse,
@@ -45,6 +47,7 @@ function PickRandomUserPlugin({ pluginUuid: uuid }: PickRandomUserPluginProps) {
   }, [isPluginSettingsLoading, pluginSettings]);
 
   const currentUserInfo = pluginApi.useCurrentUser();
+  const shouldUnmountPlugin = pluginApi.useShouldUnmountPlugin();
   const { data: currentUser } = currentUserInfo;
   const allUsersInfo = pluginApi
     .useCustomSubscription<UsersMoreInformationGraphqlResponse>(USERS_MORE_INFORMATION);
@@ -66,13 +69,18 @@ function PickRandomUserPlugin({ pluginUuid: uuid }: PickRandomUserPluginProps) {
   const {
     data: pickedUserFromDataChannelResponse,
     pushEntry: pushPickedUser,
-    replaceEntry: updatePickedRandomUser,
     deleteEntry: deletePickedUser,
   } = pluginApi.useDataChannel<PickedUser>('pickRandomUser');
   const {
     data: modalInformationFromPresenter,
     pushEntry: dispatchModalInformationFromPresenter,
   } = pluginApi.useDataChannel<ModalInformationFromPresenter>('modalInformationFromPresenter');
+
+  const {
+    data: pickedUserSeenEntries,
+    pushEntry: pushPickedUserSeen,
+    deleteEntry: deletePickedUserSeenEntries,
+  } = pluginApi.useDataChannel<PickedUserSeenEntryDataChannel>('pickedUserSeenEntry');
 
   const pickedUserFromDataChannel = {
     data: pickedUserFromDataChannelResponse?.data,
@@ -110,6 +118,7 @@ function PickRandomUserPlugin({ pluginUuid: uuid }: PickRandomUserPluginProps) {
 
   const handlePickRandomUser = () => {
     if (usersToBePicked && usersToBePicked.user.length > 0 && currentUser?.presenter) {
+      deletePickedUserSeenEntries([RESET_DATA_CHANNEL]);
       const randomIndex = Math.floor(Math.random() * usersToBePicked.user.length);
       const randomlyPickedUser = usersToBePicked.user[randomIndex];
       pushPickedUser(randomlyPickedUser);
@@ -140,7 +149,12 @@ function PickRandomUserPlugin({ pluginUuid: uuid }: PickRandomUserPluginProps) {
           entryId: pickedUserToUpdate.entryId,
         });
       }
-      if (pickedUserToUpdate?.payloadJson && pickedUserToUpdate?.payloadJson.isPresenterViewing) {
+      const hasCurrentUserSeen = hasCurrentUserSeenPickedUser(
+        pickedUserSeenEntries,
+        currentUser?.userId,
+        pickedUserToUpdate?.payloadJson.userId,
+      );
+      if (!hasCurrentUserSeen && !pickedUserSeenEntries?.loading) {
         setShowModal(true);
       }
     } else if (pickedUserFromDataChannel.data
@@ -148,7 +162,7 @@ function PickRandomUserPlugin({ pluginUuid: uuid }: PickRandomUserPluginProps) {
       setPickedUserWithEntryId(null);
       if (currentUser && !currentUser.presenter) setShowModal(false);
     }
-  }, [pickedUserFromDataChannelResponse]);
+  }, [pickedUserFromDataChannelResponse, pickedUserSeenEntries]);
 
   useEffect(() => {
     if (!pickedUserWithEntryId && !currentUser?.presenter) setShowModal(false);
@@ -158,7 +172,7 @@ function PickRandomUserPlugin({ pluginUuid: uuid }: PickRandomUserPluginProps) {
     if (!currentUser?.presenter && dispatchModalInformationFromPresenter) handleCloseModal();
   }, [currentUser]);
   if (!intl || localeMessagesLoading) return null;
-  return (
+  return !shouldUnmountPlugin && (
     <>
       <PickUserModal
         {...{
@@ -178,9 +192,10 @@ function PickRandomUserPlugin({ pluginUuid: uuid }: PickRandomUserPluginProps) {
           filterOutPickedUsers,
           setFilterOutPickedUsers,
           dataChannelPickedUsers: pickedUserFromDataChannel.data,
-          updatePickedRandomUser,
           dispatcherPickedUser: pushPickedUser,
           deletionFunction: deletePickedUser,
+          pickedUserSeenEntries,
+          pushPickedUserSeen,
         }}
       />
       <ActionButtonDropdownManager

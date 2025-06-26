@@ -11,58 +11,72 @@ const intlMessages = defineMessages({
   optionsTitle: {
     id: 'pickRandomUserPlugin.modal.presenterView.optionSection.title',
     description: 'Title of the options section on modal`s presenter view',
+    defaultMessage: 'Options',
   },
   skipModeratorsLabel: {
     id: 'pickRandomUserPlugin.modal.presenterView.optionSection.skipModeratorsLabel',
     description: 'Label of skip moderator`s option on modal`s presenter view',
+    defaultMessage: 'Skip moderators',
   },
   skipPresenterLabel: {
     id: 'pickRandomUserPlugin.modal.presenterView.optionSection.skipPresenterLabel',
     description: 'Label of skip presenter`s option on modal`s presenter view',
+    defaultMessage: 'Skip presenter',
   },
   includePickedUsersLabel: {
     id: 'pickRandomUserPlugin.modal.presenterView.optionSection.includePickedUsersLabel',
     description: 'Label of include picked users option on modal`s presenter view',
+    defaultMessage: 'Include already picked user',
   },
   availableTitle: {
     id: 'pickRandomUserPlugin.modal.presenterView.availableSection.title',
     description: 'Title of the "available users" section on modal`s presenter view',
+    defaultMessage: 'Available for selection',
   },
   userLabel: {
     id: 'pickRandomUserPlugin.modal.presenterView.availableSection.userLabel',
     description: 'Label to count user in "available users" section on presenter view',
+    defaultMessage: 'user',
   },
   userLabelPlural: {
     id: 'pickRandomUserPlugin.modal.presenterView.availableSection.userLabelPlural',
     description: 'Label to count users in "available users" section on presenter view',
+    defaultMessage: 'users',
   },
   viewerLabel: {
     id: 'pickRandomUserPlugin.modal.presenterView.availableSection.viewerLabel',
     description: 'Label to count viewer in "available users" section on presenter view',
+    defaultMessage: 'viewer',
   },
   viewerLabelPlural: {
     id: 'pickRandomUserPlugin.modal.presenterView.availableSection.viewerLabelPlural',
     description: 'Label to count viewers in "available users" section on presenter view',
+    defaultMessage: 'viewers',
   },
   previouslyPickedTitle: {
     id: 'pickRandomUserPlugin.modal.presenterView.previouslyPickedSection.title',
     description: 'Title of the "previously picked" section on presenter view',
+    defaultMessage: 'Previously picked',
   },
   clearButtonLabel: {
     id: 'pickRandomUserPlugin.modal.presenterView.previouslyPickedSection.clearButtonLabel',
     description: 'Label of button to clear list of already picked users',
+    defaultMessage: 'Clear All',
   },
   noUsersWarning: {
     id: 'pickRandomUserPlugin.modal.presenterView.previouslyPickedSection.noUsersWarning',
     description: 'Warning that there is no user to be picked',
+    defaultMessage: 'No {0} available to randomly pick from',
   },
   pickButtonLabel: {
     id: 'pickRandomUserPlugin.modal.presenterView.previouslyPickedSection.pickButtonLabel.pickUser',
     description: 'Label of the button to pick another user',
+    defaultMessage: 'Pick {0}',
   },
   pickAgainButtonLabel: {
     id: 'pickRandomUserPlugin.modal.presenterView.previouslyPickedSection.pickButtonLabel.pickAgain',
     description: 'Label of the button to pick another user',
+    defaultMessage: 'Pick again',
   },
 });
 
